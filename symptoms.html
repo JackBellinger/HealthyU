@@ -3,8 +3,7 @@
     <meta charset="utf-8">
     <title>Symptoms</title>
     <meta name="description" content="Pick your symptoms">
-    <meta name="viewport" content="width=device-width, 
-          -scale=1">
+    <meta name="viewport" content="width=device-width, -scale=1">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <style>
@@ -31,16 +30,16 @@
     </div>
     <div id="content">
         <script>
-            function setCookie(cname, cvalue, exdays) {
-                var d = new Date();
-                d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-                var expires = "expires=" + d.toUTCString();
-                document.cookie = cname + "=" + cvalue + "; " + expires;
+            function onClick() {
+                matchToProducts();
+                console.log(buyProducts);
+                window.location = "confirm.html#" + buyProducts;
             }
             var numProducts = 21;
             var numSymptoms = 40;
             //window.alert(obj.products[0]);
-            var buyProducts = [];
+            var buyProducts = "";
+
             function matchToProducts() {
                 var coughDrops = {productName: "coughDrops", numMatched: 0, forSymptoms: ["sore throat"]};
                 var nyquil = {productName: "nyquil", numMatched: 0, forSymptoms: ["cough", "headache", "runny nose"]};
@@ -54,20 +53,20 @@
                 var eyedrops = {productName: "eyedrops", numMatched: 0, forSymptoms: ["itchy eyes", "red eyes", "swelling eyelid", "tearing eyes"]};
                 var imodium = {productName: "imodium", numMatched: 0, forSymptoms: ["diarrhea", "bloating", "cramps", "gassy"]};
                 var zantac = {productName: "zantac", numMatched: 0, forSymptoms: ["cough", "stomach pain", "heartburn", "difficulty swallowing"]};
-                var aspirin = {productName: "aspirin", numMatched: 0, forSymptoms: ["muscle aches", "toothaches", "headaches", "swelling","sore throat","runny nose",
-                        "congestion","cough"]};
+                var aspirin = {productName: "aspirin", numMatched: 0, forSymptoms: ["muscle aches", "toothaches", "headaches", "swelling", "sore throat", "runny nose",
+                        "congestion", "cough"]};
                 var dermoplast = {productName: "dermoplast", numMatched: 0, forSymptoms: ["pain", "irrirations", "sore throat", "sunburn"]};
                 var tums = {productName: "tums", numMatched: 0, forSymptoms: ["heartburn", "upset stomach", "indigestion"]};
                 var pepcid = {productName: "pepcid", numMatched: 0, forSymptoms: ["heartburn", "indigestion"]};
                 var peptoBismol = {productName: "peptobismol", numMatched: 0, forSymptoms: ["upset stomach", "heartburn", "nausea", "diarrhea"]};
-                var aleve = {productName: "aleve", numMatched: 0, forSymptoms: ["headaches", "muscle aches", "tendonitis", "toothaches","cramps","pain","swelling"]};
-                var zyrtec = {productName: "zyrtec", numMatched: 0, forSymptoms: ["allergy", "watery eyes", "runny nose", "itching eyes","itching nose","sneezing",
-                    "hives","itching"]};
+                var aleve = {productName: "aleve", numMatched: 0, forSymptoms: ["headaches", "muscle aches", "tendonitis", "toothaches", "cramps", "pain", "swelling"]};
+                var zyrtec = {productName: "zyrtec", numMatched: 0, forSymptoms: ["allergy", "watery eyes", "runny nose", "itching eyes", "itching nose", "sneezing",
+                        "hives", "itching"]};
                 var claritin = {productName: "claritin", numMatched: 0, forSymptoms: ["itching", "runny nose", "watery eyes", "sneezing"]};
                 var tussin = {productName: "tussin", numMatched: 0, forSymptoms: ["cough"]};
                 var neosporin = {productName: "neosporin", numMatched: 0, forSymptoms: ["skin infections"]};
                 var clearasil = {productName: "clearasil", numMatched: 0, forSymptoms: ["acne"]};
-                
+
                 var products = [coughDrops, nyquil, ibuprofin, benadryl, zzzQuil, dramamine, nasalSpray, eyedrops, imodium, zantac, aspirin, dermoplast, tums, pepcid, peptoBismol, aleve, zyrtec, claritin, tussin, neosporin, clearasil];
                 var symptoms = [];
                 for (var i = 0; i < numSymptoms; i++) {
@@ -92,27 +91,32 @@
                         }
                     }
                 }
-            
-            //sorting the products by number of matches with symptoms
-            for (var i = 0; i < products.length; i++) {
-                var max = i;
-                for (var j = i; j < products.length; j++) {
-                    if (products[j].numMatched > products[max].numMatched)
-                        max = j;
-                    if (products[j].numMatched === products[max].numMatched)
-                        if (products[j].numMatched / products[j].forSymptoms.length > products[max].numMatched / products[max].forSymptoms.length)
-                            max = j;
 
+                //sorting the products by number of matches with symptoms
+                for (var i = 0; i < products.length; i++) {
+                    var max = i;
+                    for (var j = i; j < products.length; j++) {
+                        if (products[j].numMatched > products[max].numMatched)
+                            max = j;
+                        if (products[j].numMatched === products[max].numMatched)
+                            if (products[j].numMatched / products[j].forSymptoms.length > products[max].numMatched / products[max].forSymptoms.length)
+                                max = j;
+
+                    }
+                    if (max >= 0) {
+                        var temp = products[i];
+                        products[i] = products[max];
+                        products[max] = temp;
+                    }
                 }
-                if (max >= 0) {
-                    var temp = products[i];
-                    products[i] = products[max];
-                    products[max] = temp;
+				window.alert(products[0].numMatched + " " + products[1].numMatched + " " + products[2].numMatched + " " + products[3].numMatched)
+                if (products[0].numMatched > 0 )
+                        buyProducts = products[0].productName;
+				for (var i = 1; i < symptoms.length;i++){
+					if (products[i].numMatched > 0 )
+                        buyProducts += ("," + products[i].productName);
                 }
             }
-
-            window.alert("symptoms of "+ products[0].productName+ " " + products[0].numMatched);
-        }
 
         </script>
 
@@ -159,8 +163,8 @@
                 <input type="checkbox" name="hives" id="symptom37" />Hives<br />
                 <input type="checkbox" name="skin infections" id="symptom38" />Skin Infections<br />
                 <input type="checkbox" name="acne" id="symptom39" />Acne<br />
-                
-                <input type="button" value="Find Products" style="padding:10px; color: black;" onclick="matchToProducts();"/>
+
+                <input type="button" value="Find Products" style="padding:10px; color: black;" onclick="onClick();"/>
             </fieldset>
         </form>
     </div>

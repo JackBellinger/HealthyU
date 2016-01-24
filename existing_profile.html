@@ -21,7 +21,7 @@ and open the template in the editor.
                 background-color: black;
             }
         </style>
-    </head>
+    </head> 
     <body>
         <div class="nav">
             <div class="container">
@@ -33,14 +33,12 @@ and open the template in the editor.
             </div>
         </div>
 
+        <div class="Existed">
+            <a href="symptoms.html">user</a>
+        </div>
         <div id="cookie">
             <form name = "symptomChecks" method="post" style="font-size:20px;">
-                <ul>
-                    <il>getCookie(
-                </ul>
-
                 <input type="button" value="Submit" style="padding:10px; color: black;" onclick="checkCookie();"/>
-
             </form>
             <script>
                 function setCookie(cname, cvalue, caddress, exdays) {
@@ -77,6 +75,9 @@ and open the template in the editor.
                             setCookie("username", user, address, 30);
                         }
                     }
+                }
+                function getName() {
+                    return document.cookie;
                 }
             </script>
         </div>
