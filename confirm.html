@@ -15,7 +15,7 @@ and open the template in the editor.
         <script>
             var text = window.location.hash.substring(1);
             var items = text.split("_");
-            
+            var deliveryQuoteId;
             function onClick(){
                 deliveryQuote();
             }
@@ -29,14 +29,19 @@ and open the template in the editor.
 
                 xhr.addEventListener("readystatechange", function () {
                     if (this.readyState === 4) {
-                        console.log(this.responseText);
+						var json = JSON.parse(xhr.responseText);
+						var id = json.id;
+						console.log(this.responseText);
+                        console.log(id);
                     }
                 });
 
                 xhr.open("POST", "/api/postmates/customers/cus_Ke9kOEURVrKV7V/delivery_quotes");
 
                 xhr.send(data);
+				//return delivery
             }
+			//function 
 
         </script>
 
