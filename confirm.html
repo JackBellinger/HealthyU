@@ -27,6 +27,9 @@ and open the template in the editor.
         <script>
             var text = window.location.hash.substring(1);
             var items = text.split(",");
+			var user = document.cookie;
+			
+			console.log(user);
 			var pickupAddress;
 			var dropoffAdress;
             var deliveryQuoteId;
