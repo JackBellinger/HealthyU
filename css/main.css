@@ -60,3 +60,11 @@ ul.profile{
     color:Black;
 }
 
+img{
+    
+    float:right;
+    margin-right: 100px;
+    margin-top: 400px;
+    width:100px;
+    height:100px;
+}
