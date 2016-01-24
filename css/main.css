@@ -62,9 +62,8 @@ ul.profile{
 
 img{
     
-    float:right;
-    margin-right: 100px;
-    margin-top: 400px;
+    margin-bottom: 200px;
+    margin-left:15px;
     width:100px;
     height:100px;
 }
