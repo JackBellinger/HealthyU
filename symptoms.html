@@ -1,0 +1,168 @@
+<!doctype html>
+<head>
+    <meta charset="utf-8">
+    <title>Symptoms</title>
+    <meta name="description" content="Pick your symptoms">
+    <meta name="viewport" content="width=device-width, 
+          -scale=1">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <style>
+        #content{
+            padding:15px;
+            color: white;
+            background-image: url('https://purebeverlyhills.com/wp-content/uploads/2015/07/Postmates-Plug1.jpg');
+            background-repeat: no-repeat;
+            background-position: center; 
+            background-color: black;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="nav">
+        <div class="container" style="background-color:">
+            <ul class="nav nav-pills">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="Contact_Us.html">Contact Us</a></li>
+                <li><a href="settings.html">Settings</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="content">
+        <script>
+            function setCookie(cname, cvalue, exdays) {
+                var d = new Date();
+                d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+                var expires = "expires=" + d.toUTCString();
+                document.cookie = cname + "=" + cvalue + "; " + expires;
+            }
+            var numProducts = 21;
+            var numSymptoms = 40;
+            //window.alert(obj.products[0]);
+            var buyProducts = [];
+            function matchToProducts() {
+                var coughDrops = {productName: "coughDrops", numMatched: 0, forSymptoms: ["sore throat"]};
+                var nyquil = {productName: "nyquil", numMatched: 0, forSymptoms: ["cough", "headache", "runny nose"]};
+                var ibuprofin = {productName: "ibuprofin", numMatched: 0, forSymptoms: ["sore", "headache", "allergy"]};
+                var benadryl = {productName: "benadryl", numMatched: 0, forSymptoms: ["rash", "itching", "watery eyes", "itchy eyes",
+                        "itchy nose", "itchy throat", "cough", "runny nose", "sneezing", "nausea", "vomiting", "dizziness"]};
+                var zzzQuil = {productName: "zzzQuil", numMatched: 0, forSymptoms: ["rash", "itching", "watery eyes", "itchy eyes",
+                        "itchy nose", "itchy throat", "cough", "runny nose", "sneezing", "nausea", "vomiting", "dizziness"]};
+                var dramamine = {productName: "dramamine", numMatched: 0, forSymptoms: ["nausea", "vomiting", "dizziness"]};
+                var nasalSpray = {productName: "nasalspray", numMatched: 0, forSymptoms: ["sneezing", "runny nose", "stuffy nose", "itchy eyes", "watery eyes"]};
+                var eyedrops = {productName: "eyedrops", numMatched: 0, forSymptoms: ["itchy eyes", "red eyes", "swelling eyelid", "tearing eyes"]};
+                var imodium = {productName: "imodium", numMatched: 0, forSymptoms: ["diarrhea", "bloating", "cramps", "gassy"]};
+                var zantac = {productName: "zantac", numMatched: 0, forSymptoms: ["cough", "stomach pain", "heartburn", "difficulty swallowing"]};
+                var aspirin = {productName: "aspirin", numMatched: 0, forSymptoms: ["muscle aches", "toothaches", "headaches", "swelling","sore throat","runny nose",
+                        "congestion","cough"]};
+                var dermoplast = {productName: "dermoplast", numMatched: 0, forSymptoms: ["pain", "irrirations", "sore throat", "sunburn"]};
+                var tums = {productName: "tums", numMatched: 0, forSymptoms: ["heartburn", "upset stomach", "indigestion"]};
+                var pepcid = {productName: "pepcid", numMatched: 0, forSymptoms: ["heartburn", "indigestion"]};
+                var peptoBismol = {productName: "peptobismol", numMatched: 0, forSymptoms: ["upset stomach", "heartburn", "nausea", "diarrhea"]};
+                var aleve = {productName: "aleve", numMatched: 0, forSymptoms: ["headaches", "muscle aches", "tendonitis", "toothaches","cramps","pain","swelling"]};
+                var zyrtec = {productName: "zyrtec", numMatched: 0, forSymptoms: ["allergy", "watery eyes", "runny nose", "itching eyes","itching nose","sneezing",
+                    "hives","itching"]};
+                var claritin = {productName: "claritin", numMatched: 0, forSymptoms: ["itching", "runny nose", "watery eyes", "sneezing"]};
+                var tussin = {productName: "tussin", numMatched: 0, forSymptoms: ["cough"]};
+                var neosporin = {productName: "neosporin", numMatched: 0, forSymptoms: ["skin infections"]};
+                var clearasil = {productName: "clearasil", numMatched: 0, forSymptoms: ["acne"]};
+                
+                var products = [coughDrops, nyquil, ibuprofin, benadryl, zzzQuil, dramamine, nasalSpray, eyedrops, imodium, zantac, aspirin, dermoplast, tums, pepcid, peptoBismol, aleve, zyrtec, claritin, tussin, neosporin, clearasil];
+                var symptoms = [];
+                for (var i = 0; i < numSymptoms; i++) {
+                    var id = "symptom" + i;
+                    var chkd = document.getElementById(id).checked === true;
+                    if (chkd) {
+                        //window.alert("pls send help");
+                        symptoms.push(document.forms["symptomChecks"][id].name);
+                    }
+                }
+
+                //count up all the symptom matches in the products
+                for (var i = 0; i < symptoms.length; i++) {
+                    for (var j = 0; j < products.length; j++) {
+                        //window.alert("pls send help 2");
+                        for (var k = 0; k < products[j].forSymptoms.length; k++) {
+                            //window.alert("pls send help 2");
+                            if (symptoms[i] === products[j].forSymptoms[k]) {
+                                //window.alert("pls send help 3");
+                                products[j].numMatched++;
+                            }
+                        }
+                    }
+                }
+            
+            //sorting the products by number of matches with symptoms
+            for (var i = 0; i < products.length; i++) {
+                var max = i;
+                for (var j = i; j < products.length; j++) {
+                    if (products[j].numMatched > products[max].numMatched)
+                        max = j;
+                    if (products[j].numMatched === products[max].numMatched)
+                        if (products[j].numMatched / products[j].forSymptoms.length > products[max].numMatched / products[max].forSymptoms.length)
+                            max = j;
+
+                }
+                if (max >= 0) {
+                    var temp = products[i];
+                    products[i] = products[max];
+                    products[max] = temp;
+                }
+            }
+
+            window.alert("symptoms of "+ products[0].productName+ " " + products[0].numMatched);
+        }
+
+        </script>
+
+        <form name = "symptomChecks" method="post" style="font-size:20px;">
+            <fieldset>
+                <p style="font-size:25px">What symptoms do you have?</p>
+                <input type="checkbox" name="sore throat" id="symptom0" />Sore Throat <br />
+                <input type="checkbox" name="cough" id="symptom1" />Cough<br />
+                <input type="checkbox" name="headache" id="symptom2" />Headache<br />
+                <input type="checkbox" name="runny nose" id="symptom3" />Runny Nose<br />
+                <input type="checkbox" name="sore" id="symptom4" />Sore<br />
+                <input type="checkbox" name="allergy" id="symptom5" />Allergy<br />
+                <input type="checkbox" name="rash" id="symptom6" />Rash<br />
+                <input type="checkbox" name="itching" id="symptom7" />Itching<br />
+                <input type="checkbox" name="watery eyes" id="symptom8" />Watery Eyes<br />
+                <input type="checkbox" name="itchy eyes" id="symptom9" />Itchy Eyes<br />
+                <input type="checkbox" name="itchy nose" id="symptom10" />Itchy Nose<br />
+                <input type="checkbox" name="itchy throat" id="symptom11" />Itchy Throat<br />
+                <input type="checkbox" name="sneezing" id="symptom12" />Sneezing<br />
+                <input type="checkbox" name="nausea" id="symptom13" />Nausea<br />
+                <input type="checkbox" name="vomiting" id="symptom14" />Vomiting<br />
+                <input type="checkbox" name="dizziness" id="symptom15" />Dizziness <br />
+                <input type="checkbox" name="stuffy nose" id="symptom16" />Stuffy Nose<br />
+                <input type="checkbox" name="watery eyes" id="symptom17" />Watery Eyes<br />
+                <input type="checkbox" name="red eyes" id="symptom18" />Red Eyes<br />
+                <input type="checkbox" name="swelling eyelid" id="symptom19" />Swelling Eyelid<br />
+                <input type="checkbox" name="tearing eyes" id="symptom20" />Tearing Eyes<br />
+                <input type="checkbox" name="diarrhea" id="symptom21" />Diarrhea<br />
+                <input type="checkbox" name="bloating" id="symptom22" />Bloating<br />
+                <input type="checkbox" name="cramps" id="symptom23" />Cramps<br />
+                <input type="checkbox" name="gassy" id="symptom24" />Gassy<br />
+                <input type="checkbox" name="Stomach pain" id="symptom25" />Stomach Pain<br />
+                <input type="checkbox" name="heart burn" id="symptom26" />Heart Burn<br />
+                <input type="checkbox" name="difficulty swallowing" id="symptom27" />Difficulty Swallowing<br />
+                <input type="checkbox" name="muscle aches" id="symptom28" />Muscle Aches<br />
+                <input type="checkbox" name="toothaches" id="symptom29" />Toothaches<br />
+                <input type="checkbox" name="swelling" id="symptom30" />Swelling<br />
+                <input type="checkbox" name="congestion" id="symptom31" />Congestion<br />
+                <input type="checkbox" name="pain" id="symptom32" />Pain<br />
+                <input type="checkbox" name="irrirations" id="symptom33" />Irrirations<br />
+                <input type="checkbox" name="sunburn" id="symptom34" />Sunburn<br />
+                <input type="checkbox" name="upset stomach" id="symptom35" />Upset Stomach<br />
+                <input type="checkbox" name="tendonitis" id="symptom36" />Tendonitis<br />
+                <input type="checkbox" name="hives" id="symptom37" />Hives<br />
+                <input type="checkbox" name="skin infections" id="symptom38" />Skin Infections<br />
+                <input type="checkbox" name="acne" id="symptom39" />Acne<br />
+                
+                <input type="button" value="Find Products" style="padding:10px; color: black;" onclick="matchToProducts();"/>
+            </fieldset>
+        </form>
+    </div>
+</body>
+</html>

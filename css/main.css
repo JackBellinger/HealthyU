@@ -1,0 +1,28 @@
+.nav a {
+    color: black;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 5px 10px;
+}
+
+.nav li {
+    display: inline;
+}
+
+.jumbotron {
+  background-image: url('http://s3.amazonaws.com/codecademy-content/courses/ltp2/img/uber/bg.png'); 
+  height: 100%;
+  -webkit-background-size: cover;
+     -moz-background-size: cover;
+       -o-background-size: cover;
+          background-size: cover;
+}
+
+.jumbotron ul {
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+    font-family: 'Open Sans', sans-serif;
+    top: 400px;
+}
+
