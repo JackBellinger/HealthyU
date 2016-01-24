@@ -10,7 +10,7 @@
 }
 
 .jumbotron {
-  background-image: url('http://s3.amazonaws.com/codecademy-content/courses/ltp2/img/uber/bg.png'); 
+  background-image: url('https://wallpaperscraft.com/image/panda_smile_white_black_minimalist_74449_2560x1600.jpg'); 
   height: 100%;
   -webkit-background-size: cover;
      -moz-background-size: cover;
@@ -19,10 +19,44 @@
 }
 
 .jumbotron ul {
-    color: white;
+    color: dodgerblue;
     font-size: 30px;
     font-weight: bold;
     font-family: 'Open Sans', sans-serif;
     top: 400px;
+}
+
+.profile{
+    color:dodgerblue;
+    font-size:5px;
+    content:black;
+    border:2px solid dodgerblue;
+    border-radius:25px;
+    border-size: 10px;
+    float:left;
+    padding:5px;
+    position: fixed;
+    
+}
+
+ul.profile{
+    
+    list-style-type: none;
+}
+
+.jumbotron h3 {
+    text-align: center;
+    font-size: 60px;
+    color:dodgerblue;
+}
+.jumbotron p {
+    text-align: center;
+    font-size: 30px;
+    color:dodgerblue;
+}
+
+.container{
+    
+    color:Black;
 }
 

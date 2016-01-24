@@ -12,12 +12,27 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
+	<div>TODO write content</div>
+	
+	
+    <!--type above here please --> 
+		
+		
+		
+		<form name = "symptomChecks" method="post" style="font-size:20px;">
+            <fieldset>
+                <input type="button" value="Find Products" style="padding:10px; color: black;" onclick="onClick();"/>
+            </fieldset>
+        </form>
         <script>
             var text = window.location.hash.substring(1);
             var items = text.split("_");
-            
+			var pickupAddress;
+			var dropoffAdress;
+            var deliveryQuoteId;
             function onClick(){
-                deliveryQuote();
+                id = deliveryQuote();
+				createDelivery(item, id);
             }
             function deliveryQuote() {
                 var data = new FormData();
@@ -29,23 +44,46 @@ and open the template in the editor.
 
                 xhr.addEventListener("readystatechange", function () {
                     if (this.readyState === 4) {
-                        console.log(this.responseText);
+						var json = JSON.parse(xhr.responseText);
+						var id = json.id;
+						console.log(this.responseText);
+                        console.log(id);
                     }
                 });
 
                 xhr.open("POST", "/api/postmates/customers/cus_Ke9kOEURVrKV7V/delivery_quotes");
 
                 xhr.send(data);
+				return id;
             }
+			function createDelivery(item, id){
+				var data = new FormData();
+				data.append("quote_id", id);
+				data.append("manifest", item);
+				data.append("pickup_name", "cvs");
+				data.append("pickup_address", "1600 walnut street");
+				data.append("pickup_phone_number", item);
+				data.append("dropoff_name", item);
+                data.append("dropoff_address", "1508 chestnut street");
+				data.append("dropoff_phone_number", item);
+
+                var xhr = new XMLHttpRequest();
+                xhr.withCredentials = true;
+
+                xhr.addEventListener("readystatechange", function () {
+                    if (this.readyState === 4) {
+						var json = JSON.parse(xhr.responseText);
+						var id = json.id;
+						console.log(this.responseText);
+                        console.log(id);
+                    }
+                });
+
+                xhr.open("POST", "/api/postmates/customers/cus_Ke9kOEURVrKV7V/delivery_quotes");
+
+                xhr.send(data);
+			}
 
         </script>
-
-
-        <div>TODO write content</div>
-        <form name = "symptomChecks" method="post" style="font-size:20px;">
-            <fieldset>
-                <input type="button" value="Find Products" style="padding:10px; color: black;" onclick="onClick();"/>
-            </fieldset>
-        </form>
     </body>
 </html>
