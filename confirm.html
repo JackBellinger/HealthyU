@@ -7,40 +7,90 @@ and open the template in the editor.
 <html>
     <head>
         <title>Confirmation</title>
-
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <style>
+            #putcolor{
+                background-color:lightgray;
+                height:100%;
+                width:100%;
+                font-weight: bold;
+                font-size: 20px;
+                padding:20px;
+                
+                
+            }
+            
+            
+        </style>
     </head>
     <body>
-	<div>TODO write content</div>
-	
+	<div class="nav">
+		<div class="container">
+			<ul class="nav nav-pills">
+					<li><a href="index.html">Home</a></li>
+					<li><a href="Contact_Us.html">Contact Us</a></li>
+					<!--<li><a href="settings.html">Settings</a></li>-->
+			</ul>
+		</div>
+	</div>
+	<fieldset>
+	<form name = "adresses" method="post" style="font-size:20px;">
+                Your Address:<br>
+                <input type="text" name="address" id="address"><br>
+                Closest Pharmacy's Address:<br>
+                <input type="text" name="address" id = "address2"><br>
+				<input type="button" value="Estimate delivery fare" style="padding:10px; color: black;" onclick="estimate();"/>
+	</form>
+	<br>
+	<div>Delivery price estimate in USD $ <span id = "price"</span></div>
+	</fieldset>
+	<p id = "items">items</p>
 	
     <!--type above here please --> 
 		
 		
 		
 		<form name = "symptomChecks" method="post" style="font-size:20px;">
-            <fieldset>
-                <input type="button" value="Find Products" style="padding:10px; color: black;" onclick="onClick();"/>
-            </fieldset>
-        </form>
+
+                <input type="button" value="Place Order" style="padding:10px; color: red;" onclick="onClick();"/>
+
+			
         <script>
             var text = window.location.hash.substring(1);
             var items = text.split(",");
-			var user = document.cookie;
+			var itemsString = "The item(s) you will recieve: " + items[0];
+			for(var i = 1; i < items.length; i++){
+				itemsString += ", " + items[i];
+			}
 			
-			console.log(user);
+			document.getElementById("items").innerHTML = itemsString;
+			
+			var cookies = document.cookie.split(";")[1].split("-");
+			console.log(cookies);
 			var pickupAddress;
-			var dropoffAdress;
-            var deliveryQuoteId;
+			var dropoffAddress;
+			var id;
+			function estimate(){
+				pickupAddress = document.getElementById("address2").value;
+				dropoffAddress = document.getElementById("address").value;
+				id = deliveryQuote();
+
+			}
+			
             function onClick(){
-                id = deliveryQuote();
-				createDelivery(item, id);
-            }
+			console.log(id);
+				for(var i = 0; i < items.length; i++){
+					createDelivery(items[i], id);
+				}
+			}
             function deliveryQuote() {
+				var feeId
                 var data = new FormData();
-                data.append("pickup_address", "1600 walnut street");
-                data.append("dropoff_address", "1508 chestnut street");
+                data.append("pickup_address", pickupAddress);
+                data.append("dropoff_address", dropoffAddress);
 
                 var xhr = new XMLHttpRequest();
                 xhr.withCredentials = true;
@@ -48,26 +98,28 @@ and open the template in the editor.
                 xhr.addEventListener("readystatechange", function () {
                     if (this.readyState === 4) {
 						var json = JSON.parse(xhr.responseText);
-						var id = json.id;
+						feeId = json.id;
+						var fee = parseInt(json.fee)/ 100;
+						document.getElementById("price").innerHTML = fee;
 						console.log(this.responseText);
-                        console.log(id);
+                        console.log(feeId);
                     }
                 });
 
                 xhr.open("POST", "/api/postmates/customers/cus_Ke9kOEURVrKV7V/delivery_quotes");
 
                 xhr.send(data);
-				return id;
+				return feeId;
             }
 			function createDelivery(item, id){
 				var data = new FormData();
 				data.append("quote_id", id);
 				data.append("manifest", item);
 				data.append("pickup_name", "cvs");
-				data.append("pickup_address", "1600 walnut street");
+				data.append("pickup_address", pickupAddress);
 				data.append("pickup_phone_number", "3014040071");
 				data.append("dropoff_name", "place");
-                data.append("dropoff_address", "1508 chestnut street");
+                data.append("dropoff_address", dropoffAddress);
 				data.append("dropoff_phone_number", "3014040071");
 
                 var xhr = new XMLHttpRequest();
@@ -82,11 +134,23 @@ and open the template in the editor.
                     }
                 });
 
-                xhr.open("POST", "/api/postmates/customers/cus_Ke9kOEURVrKV7V/delivery_quotes");
+                xhr.open("POST", "/api/postmates/customers/cus_Ke9kOEURVrKV7V/deliveries");
 
                 xhr.send(data);
 			}
-
+			
+			function getCookie() {
+                    var ca = document.cookie.split(';');
+                    for (var i = 0; i < ca.length; i++) {
+                        var c = ca[i];
+                        while (c.charAt(0) == ' ')
+                            c = c.substring(1);
+                        if (c.indexOf("!") == 0) {
+                            return c.split("-")[0];
+                        }
+                    }
+                    return "";
+                }
         </script>
     </body>
 </html>

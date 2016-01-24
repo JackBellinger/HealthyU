@@ -49,27 +49,35 @@ and open the template in the editor.
                 Closest Pharmacy:<br>
                 <input type="text" name="name"><br>
                 Address:<br>
-                <input type="text" name="address"><br>
+                <input type="text" name="address" id = "address2"><br>
                 City:<br>
                 <input type="text" name="city"><br>
                 State:<br>
                 <input type="text" name="state"><br>
                 Zip Code:<br>
                 <input type="text" name="zip">
-                <input type="button" value="Submit" style="padding:10px; color: black;" onclick="checkCookie();"/>
+                <input type="button" value="Submit" style="padding:10px; color: black;" onclick="onClick();"/>
 
             </form>
             <script>
-                function setCookie(cname, cvalue, caddress,exdays) {
+				function onClick(){
+					var user = document.getElementById("user").value;
+                    var address = document.getElementById("address").value;
+					var address2 = document.getElementById("address2").value;
+					setCookie(user, address, address2, 30);
+				}
+                function setCookie(name, caddress, caddress2, exdays) {
+					document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
                     var d = new Date();
                     d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
                     var expires = "expires=" + d.toGMTString();
-                    document.cookie = cname + "=" + cvalue + caddress +"; " + expires;
-                    window.location.href = ("symptoms.html");
+                    document.cookie = "username" + "=-" + name + "-" + caddress + "-" + caddress2 + "; " + expires;
+                    
+					window.location.href = ("symptoms.html");
                 }
 
                 function getCookie(cname) {
-                    var name = cname + "=";
+                    var name = cname;
                     var ca = document.cookie.split(';');
                     for (var i = 0; i < ca.length; i++) {
                         var c = ca[i];
@@ -83,13 +91,14 @@ and open the template in the editor.
                 }
 
                 function checkCookie() {
-                    var user = getCookie("username");
+                    var user = getCookie(document.getElementById("user").value);
                     if (user != "") {
                         alert("Welcome again " + user);
                         window.location.href = ("symptoms.html");
                     } else {
+						alert("Welcome \ " + user);
                         user = document.getElementById("user").value;
-                        userAddress = document.getElementById("address").value
+                        address = document.getElementById("address").value;
                         if (user != "" && user != null) {
                             setCookie("username", user, address,30);
                         }

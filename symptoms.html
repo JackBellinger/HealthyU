@@ -24,7 +24,7 @@
             <ul class="nav nav-pills">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="Contact_Us.html">Contact Us</a></li>
-                <li><a href="settings.html">Settings</a></li>
+               <!-- <li><a href="settings.html">Settings</a></li> -->
             </ul>
         </div>
     </div>
@@ -32,7 +32,7 @@
         <script>
             function onClick() {
                 matchToProducts();
-                console.log(buyProducts);
+                //console.log(buyProducts);
                 window.location = "confirm.html#" + buyProducts;
             }
             var numProducts = 21;
@@ -109,7 +109,7 @@
                         products[max] = temp;
                     }
                 }
-				window.alert(products[0].numMatched + " " + products[1].numMatched + " " + products[2].numMatched + " " + products[3].numMatched)
+				//window.alert(products[0].numMatched + " " + products[1].numMatched + " " + products[2].numMatched + " " + products[3].numMatched)
                 if (products[0].numMatched > 0 )
                         buyProducts = products[0].productName;
 				for (var i = 1; i < symptoms.length;i++){
