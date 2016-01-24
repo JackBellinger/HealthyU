@@ -9,8 +9,93 @@ and open the template in the editor.
         <title>New Profile</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <style>
+            #cookie{
+                padding:15px;
+                color: white;
+                background-image: url('http://s3.amazonaws.com/codecademy-content/courses/ltp2/img/uber/bg.png');
+                background-repeat: no-repeat;
+                background-position: center; 
+                background-color: black;
+            }
+        </style>
     </head>
     <body>
-        <div>TODO write content</div>
+        <div class="nav">
+            <div class="container">
+                <ul class="nav nav-pills">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="Contact_Us.html">Contact Us</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="cookie">
+            <form name = "symptomChecks" method="post" style="font-size:20px;">
+                Your Name:<br>
+                <input type="text" name="name" id="user"><br>
+                Address:<br>
+                <input type="text" name="address" id="address"><br>
+                City:<br>
+                <input type="text" name="city"><br>
+                State:<br>
+                <input type="text" name="state"><br>
+                Zip Code:<br>
+                <input type="text" name="zip"><br>
+                Closest Pharmacy:<br>
+                <input type="text" name="name"><br>
+                Address:<br>
+                <input type="text" name="address"><br>
+                City:<br>
+                <input type="text" name="city"><br>
+                State:<br>
+                <input type="text" name="state"><br>
+                Zip Code:<br>
+                <input type="text" name="zip">
+                <input type="button" value="Submit" style="padding:10px; color: black;" onclick="checkCookie();"/>
+
+            </form>
+            <script>
+                function setCookie(cname, cvalue, caddress,exdays) {
+                    var d = new Date();
+                    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+                    var expires = "expires=" + d.toGMTString();
+                    document.cookie = cname + "=" + cvalue + caddress +"; " + expires;
+                    window.location.href = ("symptoms.html");
+                }
+
+                function getCookie(cname) {
+                    var name = cname + "=";
+                    var ca = document.cookie.split(';');
+                    for (var i = 0; i < ca.length; i++) {
+                        var c = ca[i];
+                        while (c.charAt(0) == ' ')
+                            c = c.substring(1);
+                        if (c.indexOf(name) == 0) {
+                            return c.substring(name.length, c.length);
+                        }
+                    }
+                    return "";
+                }
+
+                function checkCookie() {
+                    var user = getCookie("username");
+                    if (user != "") {
+                        alert("Welcome again " + user);
+                        window.location.href = ("symptoms.html");
+                    } else {
+                        user = document.getElementById("user").value;
+                        userAddress = document.getElementById("address").value
+                        if (user != "" && user != null) {
+                            setCookie("username", user, address,30);
+                        }
+                    }
+                }
+            </script>
+        </div>
+
     </body>
 </html>
