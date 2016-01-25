@@ -38,7 +38,7 @@ and open the template in the editor.
         <div id="cookie">
             <form name = "symptomChecks" method="post" style="font-size:20px;">
                 Your Name:<br>
-                <input type="text" name="name" id="user"><br>
+                <input type="text" name="name" id="userName"><br>
                 Address:<br>
                 <input type="text" name="address" id="address"><br>
                 City:<br>
@@ -62,46 +62,47 @@ and open the template in the editor.
             </form>
             <script>
 				function onClick(){
-					var user = document.getElementById("user").value;
+					var user = document.getElementById("userName").value;
                     var address = document.getElementById("address").value;
 					var address2 = document.getElementById("address2").value;
-					setCookie(user, address, address2, 30);
+					setCookie("userName",user,-1);
+					setCookie("pickupAddress",address,-1);
+					setCookie("dropoffAddress",address2,-1);
+					window.location = "symptoms.html";
 				}
-                function setCookie(name, caddress, caddress2, exdays) {
-					document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-                    var d = new Date();
-                    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-                    var expires = "expires=" + d.toGMTString();
-                    document.cookie = "username" + "=-" + name + "-" + caddress + "-" + caddress2 + "; " + expires;
-                    
-					window.location.href = ("symptoms.html");
+                function setCookie(cookieName, cookieVal, expires) {
+                    var expiresOn = "";
+					if(expires >= 0){}//if expires is set to -1 then the cookie will expire at the default of when the browser is closed 
+						var d = new Date();
+						d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+						expiresOn = ";expires=" + d.toGMTString();
+                    }
+					document.cookie = cookieName + "=" + cookieVal + expiresOn;
                 }
 
-                function getCookie(cname) {
-                    var name = cname;
-                    var ca = document.cookie.split(';');
+                function getCookie(cookieName) {
+					var allCookies = document.cookie.split(';');
                     for (var i = 0; i < ca.length; i++) {
-                        var c = ca[i];
-                        while (c.charAt(0) == ' ')
-                            c = c.substring(1);
-                        if (c.indexOf(name) == 0) {
-                            return c.substring(name.length, c.length);
+                        var cookie = ca[i];
+                        while (cookie.charAt(0) == ' ')
+                            cookie = cookie.substring(1);
+                        if (cookie.indexOf(name) == 0) {
+                            return cookie.substring(cookieName.length, cookie.length);
                         }
                     }
                     return "";
                 }
 
                 function checkCookie() {
-                    var user = getCookie(document.getElementById("user").value);
+                    var user = getCookie("userName");
                     if (user != "") {
                         alert("Welcome again " + user);
                         window.location.href = ("symptoms.html");
                     } else {
 						alert("Welcome \ " + user);
                         user = document.getElementById("user").value;
-                        address = document.getElementById("address").value;
                         if (user != "" && user != null) {
-                            setCookie("username", user, address,30);
+                            setCookie("userName", user, -1);
                         }
                     }
                 }

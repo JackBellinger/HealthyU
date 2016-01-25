@@ -45,9 +45,9 @@ and open the template in the editor.
 				<input type="button" value="Estimate delivery fare" style="padding:10px; color: black;" onclick="estimate();"/>
 	</form>
 	<br>
-	<div>Delivery price estimate in USD $ <span id = "price"</span></div>
+	<div>Delivery price estimate in USD $ <b><span id = "price"</span></b></div>
 	</fieldset>
-	<p id = "items">items</p>
+	<u><p id = "items" style ="font-size:25px">items</p></u>
 	
     <!--type above here please --> 
 		
@@ -81,13 +81,12 @@ and open the template in the editor.
 			}
 			
             function onClick(){
-			console.log(id);
+			console.log("final " + id);
 				for(var i = 0; i < items.length; i++){
 					createDelivery(items[i], id);
 				}
 			}
             function deliveryQuote() {
-				var feeId
                 var data = new FormData();
                 data.append("pickup_address", pickupAddress);
                 data.append("dropoff_address", dropoffAddress);
@@ -98,18 +97,17 @@ and open the template in the editor.
                 xhr.addEventListener("readystatechange", function () {
                     if (this.readyState === 4) {
 						var json = JSON.parse(xhr.responseText);
-						feeId = json.id;
+						id = json.id;
 						var fee = parseInt(json.fee)/ 100;
 						document.getElementById("price").innerHTML = fee;
 						console.log(this.responseText);
-                        console.log(feeId);
                     }
                 });
 
                 xhr.open("POST", "/api/postmates/customers/cus_Ke9kOEURVrKV7V/delivery_quotes");
 
                 xhr.send(data);
-				return feeId;
+				return id;
             }
 			function createDelivery(item, id){
 				var data = new FormData();
