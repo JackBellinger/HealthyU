@@ -32,7 +32,6 @@ and open the template in the editor.
 			<ul class="nav nav-pills">
 					<li><a href="index.html">Home</a></li>
 					<li><a href="Contact_Us.html">Contact Us</a></li>
-					<!--<li><a href="settings.html">Settings</a></li>-->
 			</ul>
 		</div>
 	</div>
@@ -47,9 +46,9 @@ and open the template in the editor.
 		
 		
 		<form name = "symptomChecks" method="post" style="font-size:20px;">
-
-                <input type="button" value="Place Order" style="padding:10px; color: red;" onclick="onClick();"/>
-
+			<input type="button" value="Place Order" style="padding:10px; color: red;" onclick="onClick();"/>
+		</form>		
+		<div id = "confirmation"> </div>
 			
         <script>
 			var userName = getCookie("userName");
@@ -59,7 +58,7 @@ and open the template in the editor.
 			
             var text = window.location.hash.substring(1);
             var items = text.split(",");
-			var xhr = new XMLHttpRequest();
+			var xhr;
 			
 			var itemsString = "The item(s) you will recieve: " + items[0];
 			for(var i = 1; i < items.length; i++){
@@ -74,22 +73,33 @@ and open the template in the editor.
 					createDelivery(items[i], id);
 				}
 			}
-            function deliveryQuote() {
-                var data = new FormData();
-                data.append("pickup_address", pickupAddress);
-                data.append("dropoff_address", dropoffAddress);
-				
-                xhr.withCredentials = true;
-                xhr.addEventListener("readystatechange", function () {
+			xhr.addEventListener("readystatechange", function () {
 				
 				if (this.readyState === 4) {
 					var json = JSON.parse(xhr.responseText);
 					id = json.id;
 					var fee = parseInt(json.fee)/ 100;
 					document.getElementById("price").innerHTML = fee;
-					//console.log(this.responseText);
+					var kind = json.kind;
+					var code = json.code;
+					var eta = json.pickup_eta;
+					if(kind === "delivery")
+						document.getElementById("confirmation").innerHTML = "Done! Your items are on the way";
+					if(kind === "error"){
+						document.getElementById("confirmation").innerHTML = "There was an error";
+						if(code === "address_undeliverable")
+							document.getElementById("confirmation").innerHTML = "There was an error, Your address was either invalid or not in Postmates's devilery area. Make sure you wrote street at the end of your address";
+					}
+					console.log(this.responseText);
 				}
                 });
+            function deliveryQuote() {
+				xhr = new XMLHttpRequest();
+                var data = new FormData();
+                data.append("pickup_address", pickupAddress);
+                data.append("dropoff_address", dropoffAddress);
+				
+                xhr.withCredentials = true;
 
                 xhr.open("POST", "/api/postmates/customers/cus_Ke9kOEURVrKV7V/delivery_quotes");
 
@@ -109,15 +119,6 @@ and open the template in the editor.
 
                 var xhr = new XMLHttpRequest();
                 xhr.withCredentials = true;
-
-                xhr.addEventListener("readystatechange", function () {
-                    if (this.readyState === 4) {
-						var json = JSON.parse(xhr.responseText);
-						var eta = json.pickup_eta;
-						console.log(this.responseText);
-                        console.log(eta);
-                    }
-                });
 
                 xhr.open("POST", "/api/postmates/customers/cus_Ke9kOEURVrKV7V/deliveries");
 
